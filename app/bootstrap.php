@@ -6,6 +6,7 @@ use Knp\Provider\ConsoleServiceProvider;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\Application;
 use Losofacebook\Service\ImageService;
+use Losofacebook\Service\RecreateService;
 use Losofacebook\Service\PersonService;
 use Losofacebook\Service\PostService;
 use Losofacebook\Service\CompanyService;
@@ -62,7 +63,6 @@ $app->register(
     ]
 );
 
-
 $app['memcached'] = $app->share(function (Application $app) {
     $m = new Memcached();
     $m->addServer('localhost', 11211);
@@ -81,6 +81,13 @@ $app['imageService'] = $app->share(function (Application $app) {
     );
 });
 
+$app['recreateService'] = $app->share(function (Application $app) {
+    return new RecreateService(
+        $app['db'],
+        realpath(__DIR__ . '/data/images'),
+        $app['memcached']
+    );
+});
 
 $app['postService'] = $app->share(function (Application $app) {
     

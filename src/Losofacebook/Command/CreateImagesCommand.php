@@ -36,6 +36,8 @@ class CreateImagesCommand extends Command
 
         $is = $this->getImageService();
 
+        die();
+        
         $this->getDb()->exec("DELETE FROM image WHERE type = 1");
 
         foreach ($finder as $file) {
